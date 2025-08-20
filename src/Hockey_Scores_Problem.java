@@ -104,5 +104,6 @@ public class Hockey_Scores_Problem {
         System.out.println("The " + teamOne + " recorded " + shutoutsOne + " shutout" + (shutoutsOne == 1 ? "" : "s"));
         System.out.println("The " + teamTwo + " recorded " + shutoutsTwo + " shutout" + (shutoutsTwo == 1 ? "" : "s"));
         System.out.println("The maximum number of goals scored was " + maxGoals + " by the " + maxTeam + " in game " + maxGame);
+
     }
 }
