@@ -1,59 +1,37 @@
+
+
 import java.sql.*;
 
+
 public class Demo {
+    public static void main(String[] args) throws SQLException {
 
-    // Centralized exception handler
-    public static void handleException(Exception e) {
-        System.out.println("❌ Error: " + e.getMessage());
-        e.printStackTrace();
-    }
-
-    public static void main(String[] args) {
-        Connection con = null;
-        Statement stmt = null;
+        Connection con = null ;
         ResultSet rs = null;
-
+        Statement stmt = null ;
+        String url = "jdbc:mysql://localhost:3306/University";
+        String username = "root";
+        String password = "Kamal@9090";
+        String sql = "select * from students" ;
         try {
-            // 1. Load SQL Server JDBC Driver
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-            // 2. Database connection URL
-            String url = "jdbc:sqlserver://localhost:1433;" +
-                    "databaseName=MyDatabase;" +  // change to your DB name
-                    "encrypt=false";              // disable SSL if not configured
-
-            String user = "sa";        // change to your username
-            String password = "yourPassword"; // change to your password
-
-            // 3. Establish connection
-            con = DriverManager.getConnection(url, user, password);
-            System.out.println("✅ Database Connected Successfully!");
-
-            // 4. Create statement
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(url ,username,password ) ;
             stmt = con.createStatement();
-
-            // 5. Execute query
-            String query = "SELECT id, name FROM Students"; // change table/columns as per DB
-            rs = stmt.executeQuery(query);
-
-            // 6. Process results
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                System.out.println(id + " - " + name);
+            rs = stmt.executeQuery(sql) ;
+            //System.out.println(rs.first()) ;
+            String firstname ;
+            int count = 0 ;
+            while(rs.next() && count < 10) {
+                firstname = rs.getString("firstName");
+                System.out.println(firstname) ;
+                count++ ;
             }
-
         } catch (Exception e) {
-            handleException(e);
-        } finally {
-            // 7. Close resources safely
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception e) {
-                handleException(e);
-            }
+            // TODO: handle exception
+            System.out.println("Exception : "+e.getMessage()) ;
         }
+        rs.close();
+        stmt.close();
+        con.close();
     }
 }
